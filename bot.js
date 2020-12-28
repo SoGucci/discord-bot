@@ -45,7 +45,6 @@ async function findJoinSound(id) {
     console.log(err.stack);
   }
 }
-
 client.on("ready", () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
