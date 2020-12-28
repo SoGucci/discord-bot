@@ -59,9 +59,11 @@ client.on("message", async (msg) => {
       const message = await addJoinSound(joinSoundDocument);
       // console.log(msg.author.id);
       // console.log(msg.attachments.array()[0].url);
-      msg.reply(`Succussful ${message} join sound`);
+      const reply = await msg.reply(`Succussful ${message} join sound`);
+      reply.delete({ timeout: 5000 });
     } else {
-      msg.reply(`Join sound too long`);
+      const reply = await msg.reply(`Join sound too long`);
+      reply.delete({ timeout: 5000 });
     }
   }
   msg.delete({ timeout: 5000 });
