@@ -5,7 +5,6 @@ const { isRegExp } = require("util");
 const client = new Discord.Client();
 
 const database = new MongoClient(process.env.DB_URI, {
-  useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
@@ -65,22 +64,32 @@ client.on("message", async (msg) => {
       msg.reply(`Join sound too long`);
     }
   }
+  msg.delete({ timeout: 5000 });
 
   //   if (msg.content === "ping") {
   //     msg.reply("pong");
 });
 
 client.on("voiceStateUpdate", async (oldState, newState) => {
+  let channel = newState.channel;
   if (oldState.channel == null && newState.channel != null) {
-    const sound = await findJoinSound(newState.id);
-    const temp = sound.url.slice(sound.url.length - 3, sound.url.length);
-    console.log(temp);
-    if (temp == "mp3") {
-      const connection = await newState.channel.join();
-      const dispatcher = connection.play(sound.url);
-      dispatcher.on("finish", () => {
-        newState.channel.leave();
-      });
+    try {
+      const sound = await findJoinSound(newState.id);
+
+      const temp = sound.url.slice(sound.url.length - 3, sound.url.length);
+
+      console.log(temp);
+      if (temp == "mp3") {
+        const connection = await newState.channel.join();
+        const dispatcher = connection.play(sound.url);
+        console.log("hey");
+
+        dispatcher.on("finish", () => {
+          channel.leave();
+        });
+      }
+    } catch (err) {
+      console.log(err.stack);
     }
   }
 });
