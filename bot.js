@@ -65,8 +65,8 @@ client.on("message", async (msg) => {
       const reply = await msg.reply(`Join sound too long`);
       reply.delete({ timeout: 5000 });
     }
+    msg.delete({ timeout: 5000 });
   }
-  msg.delete({ timeout: 5000 });
 
   //   if (msg.content === "ping") {
   //     msg.reply("pong");
