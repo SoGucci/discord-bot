@@ -50,15 +50,20 @@ client.on("ready", () => {
 });
 
 client.on("message", async (msg) => {
-  if (msg.channel.name == "bot-cmd") {
-    let joinSoundDocument = {
-      user: msg.author.id,
-      url: msg.attachments.array()[0].url,
-    };
-    const message = await addJoinSound(joinSoundDocument);
-    // console.log(msg.author.id);
-    // console.log(msg.attachments.array()[0].url);
-    msg.reply(`Succussful ${message} join sound`);
+  if (msg.channel.name == "join-sound-upload") {
+    153946;
+    if (msg.attachments.array()[0].size < 166667) {
+      let joinSoundDocument = {
+        user: msg.author.id,
+        url: msg.attachments.array()[0].url,
+      };
+      const message = await addJoinSound(joinSoundDocument);
+      // console.log(msg.author.id);
+      // console.log(msg.attachments.array()[0].url);
+      msg.reply(`Succussful ${message} join sound`);
+    } else {
+      msg.reply(`Join sound too long`);
+    }
   }
 
   //   if (msg.content === "ping") {
